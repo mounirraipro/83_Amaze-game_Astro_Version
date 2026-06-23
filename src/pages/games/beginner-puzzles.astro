@@ -1,0 +1,18 @@
+---
+import LevelCollectionPage from "@/components/LevelCollectionPage.astro";
+import { categories } from "@/data/gameData";
+
+const beginner = categories.find((category) => category.slug === "beginner");
+if (!beginner) throw new Error("Missing beginner mode");
+const levels = beginner.levels.map((level) => ({ categoryName: beginner.name, categoryColor: beginner.color, level }));
+---
+
+<LevelCollectionPage
+  title="Beginner Amaze Game Levels"
+  description="Start with beginner Amaze Game levels and learn how to slide, fill, restart, and plan simple maze routes."
+  eyebrow="Beginner puzzles"
+  heading="Beginner Amaze Game routes."
+  intro="Friendly maze-fill levels for learning the rule set before harder boards."
+  levels={levels}
+  notes={["Small boards.", "Clear corners.", "Fast restarts."]}
+/>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCategoryAccentClass } from "@/data/accentClasses";
+import type { GameCategory, GameLevel } from "@/data/gameData";
+
+type Props = {
+  title: string;
+  description: string;
+  heading: string;
+  intro: string;
+  category: GameCategory;
+  level: GameLevel;
+  related: GameLevel[];
+};
+
+const { title, description, heading, intro, category, level, related } = Astro.props;
+const accentClass = getCategoryAccentClass(category.name);
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="listing-shell level-spotlight">
+    <header class="listing-header">
+      <p class="eyebrow">{category.name} Amaze Game Level</p>
+      <h1>{heading}</h1>
+      <p>{intro}</p>
+    </header>
+
+    <div class:list={["level-hero-card", accentClass]}>
+      <img src={level.thumbnail} alt={heading + " Amaze Game preview"} width="1200" height="800" />
+      <div>
+        <span>{level.gridSize} - {level.difficulty}</span>
+        <strong class="level-hero-title">{level.title}</strong>
+        <p>{category.longDescription}</p>
+        <a class="primary-action" href="/play/"><span class="play-triangle"></span>Play Amaze Game</a>
+      </div>
+    </div>
+
+    <section class="seo-copy-section" aria-labelledby={String(level.id) + "-spotlight-guide"}>
+      <div class="section-head">
+        <h2 id={String(level.id) + "-spotlight-guide"}>{heading} level notes.</h2>
+      </div>
+      <div class="seo-copy-grid">
+        <article class="seo-copy-card seo-copy-wide">
+          <h3>About this route</h3>
+          <p>{heading} is part of the {category.name} Amaze Game mode. It uses a {level.gridSize} board with {level.difficulty.toLowerCase()} pacing, so the useful skill is reading constrained spaces before the first slide.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>How to approach it</h3>
+          <p>Trace the board as one continuous route. Look for dead ends, decide whether a corridor should be saved for the finish, and restart with a new opening when a tile becomes stranded.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>What to practice</h3>
+          <p>Practice deliberate movement. A good Amaze Game route is not just fast; it keeps access open until every tile is filled.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <p class="section-title-like">More {category.name.toLowerCase()} routes</p>
+    </div>
+    <div class="level-grid">
+      {related.map((item) => (
+        <a class:list={["level-card", accentClass]} href="/play/">
+          <img src={item.thumbnail} alt={item.title + " Amaze Game preview"} width="640" height="360" loading="lazy" />
+          <strong>{item.title}</strong>
+          <span>{item.gridSize} - {item.difficulty}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

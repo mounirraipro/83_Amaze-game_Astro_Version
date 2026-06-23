@@ -1,0 +1,93 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { articles } from "@/data/articles";
+import { externalGames } from "@/data/externalGames";
+import { categories } from "@/data/gameData";
+import { withTrailingSlash } from "@/data/seo";
+import { siteRoutes } from "@/data/siteRoutes";
+import { siteConfig } from "@/data/siteConfig";
+
+const levelPages = [
+  { path: "/levels", title: "All Levels" },
+  ...categories.map((category) => ({ path: `/levels/${category.slug}`, title: `${category.name} Levels` })),
+];
+
+const extraGamePages = [
+  { path: "/game/index.html", title: "Amaze Game Player" },
+  { path: "/games/beginner-puzzles", title: "Beginner Puzzles" },
+  { path: "/games/expert-puzzles", title: "Expert Puzzles" },
+];
+
+const sitemapSections = [
+  {
+    title: "Main Pages",
+    links: siteRoutes.map((route) => ({ path: route.path, title: route.title })),
+  },
+  {
+    title: "Puzzle Categories",
+    links: categories.map((category) => ({ path: `/categories/${category.slug}`, title: category.name })),
+  },
+  {
+    title: "Amaze Game Levels",
+    links: levelPages,
+  },
+  {
+    title: "Games",
+    links: [
+      ...extraGamePages,
+      ...externalGames.map((game) => ({ path: `/games/${game.slug}`, title: game.title })),
+    ],
+  },
+  {
+    title: "Blog Articles",
+    links: articles.map((article) => ({ path: `/blog/${article.slug}`, title: article.title })),
+  },
+];
+---
+
+<BaseLayout
+  seo={{
+    path: "/sitemap",
+    title: "Sitemap",
+    seoTitle: `${siteConfig.name} Sitemap - All Puzzle Pages`,
+    description: `Browse every important ${siteConfig.name} page, including play, guides, support, and legal information.`,
+    schemaType: "WebPage",
+  }}
+>
+  <section class="mx-auto w-[min(1080px,calc(100%-48px))] py-12 max-sm:w-[calc(100%-28px)]">
+    <p class="mb-6 text-[0.78rem] font-black uppercase tracking-[0.08em] text-game-green after:mt-3.5 after:block after:h-px after:w-10 after:bg-current after:content-['']">Navigation</p>
+    <h1 class="mb-5 max-w-[720px] text-[clamp(2.4rem,6vw,4.4rem)] font-black leading-[0.98] tracking-normal text-ink">Sitemap</h1>
+    <p class="max-w-[760px] text-lg leading-8 text-muted">Browse every public page, game, category, level, and article available on {siteConfig.name}. This HTML sitemap is designed for visitors who want a direct overview of the site structure, while the XML sitemap gives search engines a clean machine-readable list of indexable URLs.</p>
+    <p class="mt-4 max-w-[760px] text-base leading-7 text-muted">Use the sections below to jump to the playable Amaze Game page, mode collections, level pages, supporting guides, legal pages, and long-form maze puzzle articles. Each link points to a canonical trailing-slash route so crawlers and users land on the final page version without unnecessary redirects.</p>
+    <h2 class="sr-only">Sitemap sections</h2>
+
+    <div class="mt-10 grid gap-5">
+      {
+        sitemapSections.map((section) => (
+          <section class="rounded-[28px] border border-white/80 bg-white/78 p-5 shadow-[0_18px_50px_rgba(31,44,71,0.08)] backdrop-blur">
+            <div class="mb-4 flex items-end justify-between gap-4 border-b border-line/70 pb-3">
+              <h3 class="text-xl font-black text-ink">{section.title}</h3>
+              <span class="rounded-full bg-soft px-3 py-1 text-xs font-black text-muted">{section.links.length} pages</span>
+            </div>
+            <nav class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3" aria-label={`${section.title} sitemap links`}>
+              {section.links.map((link) => (
+                <a
+                  class="group flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-transparent bg-white px-4 py-3 text-sm font-extrabold text-copy no-underline shadow-[inset_0_-2px_0_rgba(32,184,216,0.12)] transition hover:-translate-y-0.5 hover:border-game-coral/35 hover:text-game-coral hover:shadow-[0_14px_30px_rgba(31,44,71,0.1)]"
+                  href={withTrailingSlash(link.path)}
+                >
+                  <span>{link.title}</span>
+                  <span class="text-game-coral opacity-0 transition group-hover:opacity-100">Open</span>
+                </a>
+              ))}
+            </nav>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="mt-10 rounded-[28px] border border-white/80 bg-white/78 p-6 shadow-[0_18px_50px_rgba(31,44,71,0.08)] backdrop-blur">
+      <h3 class="mb-3 text-2xl font-black text-ink">How this sitemap is organized</h3>
+      <p class="max-w-[860px] text-base leading-7 text-muted">Main pages cover core navigation such as Play, Games, Categories, Blog, FAQ, and Contact. Mode and level pages help players browse Amaze Game content by route difficulty. Game pages include playable iframes plus explanatory content, and blog articles provide deeper guides for maze strategy, screen time, focus, and family play.</p>
+    </section>
+  </section>
+</BaseLayout>

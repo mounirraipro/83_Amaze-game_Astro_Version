@@ -1,0 +1,238 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { articles } from "@/data/articles";
+import { categories } from "@/data/gameData";
+import { externalGames } from "@/data/externalGames";
+import { siteConfig } from "@/data/siteConfig";
+import { brandAccentClass, getCategoryAccentClass } from "@/data/accentClasses";
+
+const recentPosts = articles.slice(0, 3);
+const featuredCategories = categories.map((category) => ({
+  ...category,
+  preview: category.levels[0]?.thumbnail ?? category.levels[0]?.image,
+}));
+const homeBentoGames = [
+  {
+    href: "/play/",
+    title: "Amaze Game Online",
+    shortTitle: "Amaze Game",
+    category: "Now playing",
+    thumbnail: "/amaze/categories/intermediate.svg",
+    accent: "#2563eb",
+    accentClass: brandAccentClass,
+  },
+  ...externalGames.map((game) => ({
+    href: "/games/" + game.slug + "/",
+    title: game.title,
+    shortTitle: game.shortTitle,
+    category: game.category,
+    thumbnail: game.thumbnail,
+    accent: game.accent,
+    accentClass: game.accentClass,
+  })),
+].slice(0, 8);
+const homeBentoLeft = homeBentoGames.slice(0, 4);
+const homeBentoRight = homeBentoGames.slice(4, 8);
+
+const faqItems = [
+  ["What is Amaze Game?", "Amaze Game is a free online maze-fill puzzle where you slide through a grid and color every tile to complete each level."],
+  ["How do you play Amaze Game online?", "Swipe or use arrow keys to slide in straight lines. Plan a route that fills every tile without leaving unreachable spaces behind."],
+  ["Is Amaze Game free?", "Yes. Amaze Game is free to play in the browser with no download and no account required."],
+  ["Does Amaze Game work on mobile?", "Yes. The embedded game is designed for modern mobile and desktop browsers."],
+  ["What keyword does this site target?", "The site uses the split phrase Amaze Game in headings, metadata, routes, and guide copy so the topic is clear beyond the domain name."],
+];
+
+const homeStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    name: "Amaze Game",
+    alternateName: ["Amaze Game Online", "amaze game", "maze fill puzzle"],
+    url: siteConfig.siteUrl + "/",
+    image: new URL(siteConfig.defaultOgImage, siteConfig.siteUrl).href,
+    description: siteConfig.description,
+    applicationCategory: "Game",
+    gamePlatform: ["Web browser", "Desktop", "Mobile", "Tablet"],
+    genre: ["Maze puzzle", "Route planning", "Tile fill puzzle"],
+    operatingSystem: "Any modern browser",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.publisherName,
+      url: siteConfig.siteUrl,
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map(([question, answer]) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout title={siteConfig.name} description={siteConfig.description} structuredData={homeStructuredData}>
+  <section class="hero-play">
+    <div class="home-game-lobby">
+      <div class="game-bento-grid game-bento-grid-side" aria-label="Games you can play">
+        {homeBentoLeft.map((game, index) => (
+          <a class:list={["game-bento-card", game.accentClass, { "game-bento-card-featured": index === 0 }]} href={game.href}>
+            <img src={game.thumbnail} alt={game.title + " thumbnail"} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{game.category}</span>
+              <strong>{game.shortTitle}</strong>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="hero-game">
+        <iframe src="/game/index.html" title="Play Amaze Game" loading="eager"></iframe>
+      </div>
+      <div class="game-bento-grid game-bento-grid-side" aria-label="More games">
+        {homeBentoRight.map((game, index) => (
+          <a class:list={["game-bento-card", game.accentClass, { "game-bento-card-featured": index === 0 }]} href={game.href}>
+            <img src={game.thumbnail} alt={game.title + " thumbnail"} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{game.category}</span>
+              <strong>{game.shortTitle}</strong>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="hero-copy">
+      <div class="hero-copy-main">
+        <p class="eyebrow">Instant maze puzzle</p>
+        <h1>Amaze Game Online</h1>
+        <p>Play Amaze Game free in your browser. Slide through maze grids, fill every tile, and plan the clean route before a corner or corridor gets stranded.</p>
+        <a class="text-link hero-note" href="/how-to-play/">Learn how to play</a>
+      </div>
+      <div class="hero-play-panel">
+        <div class="hero-panel-top">
+          <span>No download</span>
+          <strong>Start filling the maze.</strong>
+        </div>
+        <div class="hero-actions">
+          <a class="primary-action" href="/play/"><span class="play-triangle"></span>Play Full Screen</a>
+          <a class="secondary-action" href="/strategy/">Strategy</a>
+        </div>
+        <dl class="stat-row">
+          <div><dt>{categories.reduce((sum, category) => sum + category.levels.length, 0)}+</dt><dd>Level notes</dd></div>
+          <div><dt>{categories.length}</dt><dd>Modes</dd></div>
+          <div><dt>{articles.length}</dt><dd>Guides</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section home-search-intent">
+    <div class="home-section-head split-head">
+      <div>
+        <p class="eyebrow">Amaze Game guide</p>
+        <h2>Fill every tile with a smarter route.</h2>
+      </div>
+      <p>Amaze Game turns one simple sliding rule into a compact route-planning puzzle.</p>
+    </div>
+    <div class="process-strip">
+      <article>
+        <span>Free</span>
+        <h3>Browser play</h3>
+        <p>Open <a href="/play/">Amaze Game online</a> and start instantly. No app store, installer, or login is needed.</p>
+      </article>
+      <article>
+        <span>Route</span>
+        <h3>Straight-line sliding</h3>
+        <p>Your piece moves until the maze stops it, so every swipe has consequences for the rest of the board.</p>
+      </article>
+      <article>
+        <span>100%</span>
+        <h3>Complete fill goal</h3>
+        <p>The level is solved only when every tile is colored. One stranded square means the route needs a new plan.</p>
+      </article>
+      <article>
+        <span>Learn</span>
+        <h3>Helpful paths</h3>
+        <p>Use the <a href="/how-to-play/">rules guide</a>, browse <a href="/levels/">Amaze Game levels</a>, or read <a href="/blog/">strategy articles</a>.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="home-section home-worlds">
+    <div class="home-section-head">
+      <p class="eyebrow">Choose a mode</p>
+      <h3>{categories.length} Amaze Game difficulty bands.</h3>
+      <p>Start with friendly routes or jump into expert boards that demand full-path planning.</p>
+    </div>
+    <div class="world-showcase">
+      <a class:list={["world-feature", getCategoryAccentClass(featuredCategories[0].name)]} href={"/categories/" + featuredCategories[0].slug + "/"}>
+        <img src={featuredCategories[0].preview} alt={featuredCategories[0].name + " Amaze Game preview"} width="640" height="360" loading="lazy" />
+        <div>
+          <span>{featuredCategories[0].name}</span>
+          <strong>Begin with clean routes.</strong>
+          <small>{featuredCategories[0].levels.length} level notes</small>
+        </div>
+      </a>
+      <div class="world-stack">
+        {featuredCategories.slice(1).map((category) => (
+          <a class:list={["world-card", getCategoryAccentClass(category.name)]} href={"/categories/" + category.slug + "/"}>
+            <img src={category.preview} alt={category.name + " Amaze Game preview"} width="640" height="360" loading="lazy" />
+            <div>
+              <span>{category.name}</span>
+              <small>{category.levels.length} levels</small>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section home-process">
+    <div class="home-section-head split-head">
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h3>Simple moves. Exact goal.</h3>
+      </div>
+      <p>Four steps from empty maze to completed route.</p>
+    </div>
+    <div class="process-strip">
+      <article><span>01</span><h3>Scan</h3><p>Find corners and dead ends before moving.</p></article>
+      <article><span>02</span><h3>Slide</h3><p>Move in one direction until the path stops.</p></article>
+      <article><span>03</span><h3>Fill</h3><p>Color every tile your route crosses.</p></article>
+      <article><span>04</span><h3>Refine</h3><p>Restart with a better plan when a tile is stranded.</p></article>
+    </div>
+  </section>
+
+  <section class="home-section home-blog">
+    <div class="home-section-head split-head">
+      <div>
+        <p class="eyebrow">Latest articles</p>
+        <h3>Amaze Game strategy and guides.</h3>
+      </div>
+      <a class="text-link" href="/blog/">All articles</a>
+    </div>
+    <div class="blog-card-grid">
+      {recentPosts.map((post) => (
+        <a class="blog-post-card" href={"/blog/" + post.slug + "/"}>
+          <div class="blog-post-card-top">
+            <span>{post.category}</span>
+            <time datetime={post.datePublished}>{post.datePublished}</time>
+          </div>
+          <h3>{post.title}</h3>
+          <p>{post.description}</p>
+          <small>{post.readTime}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

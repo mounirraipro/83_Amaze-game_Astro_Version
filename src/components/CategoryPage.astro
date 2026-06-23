@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCategoryAccentClass } from "@/data/accentClasses";
+import { getCategoryBySlug } from "@/data/gameData";
+
+type Props = {
+  slug: string;
+};
+
+const { slug } = Astro.props;
+const category = getCategoryBySlug(slug);
+if (!category) throw new Error(`Missing category: ${slug}`);
+const accentClass = getCategoryAccentClass(category.name);
+const isLevelPage = Astro.url.pathname.toLowerCase().startsWith("/levels/");
+const seoTitle = isLevelPage ? category.name + " Amaze Game Levels" : category.name + " Amaze Game Mode";
+const seoDescription = isLevelPage
+  ? "Browse " + category.name + " Amaze Game levels, compare maze-fill difficulty, and play the free online puzzle."
+  : category.description;
+const pageKind = isLevelPage ? "levels" : "mode";
+const pageHeading = isLevelPage ? category.name + " Amaze Game levels." : category.name + " route mode.";
+const guideHeading = isLevelPage ? category.name + " level guide." : category.name + " mode guide.";
+const difficultyNames = Array.from(new Set(category.levels.map((level) => level.difficulty))).join(", ");
+---
+
+<BaseLayout title={seoTitle} description={seoDescription}>
+  <section class="listing-shell">
+    <header class="listing-header">
+      <p class="eyebrow">Amaze Game {pageKind}</p>
+      <h1>{pageHeading}</h1>
+      <p>{category.longDescription}</p>
+    </header>
+    <div class="level-grid">
+      {category.levels.map((level) => (
+        <a class:list={["level-card", accentClass]} href="/play/">
+          <img src={level.thumbnail} alt={level.title + " Amaze Game maze preview"} width="640" height="360" loading="lazy" />
+          <strong>{level.title}</strong>
+          <span>{level.gridSize} - {level.difficulty}</span>
+        </a>
+      ))}
+    </div>
+
+    <section class="seo-copy-section" aria-labelledby={category.slug + "-" + pageKind + "-guide"}>
+      <div class="section-head">
+        <h2 id={category.slug + "-" + pageKind + "-guide"}>{guideHeading}</h2>
+      </div>
+      <div class="seo-copy-grid">
+        <article class="seo-copy-card seo-copy-wide">
+          <h3>{category.name} Amaze Game overview</h3>
+          <p>{category.longDescription} This mode includes {category.levels.length} maze-fill challenges that use the same core rule: slide in straight lines and fill every tile without stranding the route.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>Difficulty range</h3>
+          <p>The {category.name.toLowerCase()} mode includes {difficultyNames} pacing. Early boards teach clean movement, while later boards ask for more patience, stronger route memory, and better dead-end control.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>Best approach</h3>
+          <p>Scan corners and narrow corridors first. Decide which section should be left for the finish, then use each slide to protect access to the remaining unfilled tiles. Restart when a path teaches you something useful.</p>
+        </article>
+      </div>
+    </section>
+  </section>
+</BaseLayout>

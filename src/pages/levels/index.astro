@@ -1,0 +1,20 @@
+---
+import LevelCollectionPage from "@/components/LevelCollectionPage.astro";
+import { allLevels } from "@/data/gameData";
+
+const levels = allLevels.map(({ category, level }) => ({
+  categoryName: category.name,
+  categoryColor: category.color,
+  level,
+}));
+---
+
+<LevelCollectionPage
+  title="Amaze Game Levels"
+  description="Browse Amaze Game levels by difficulty, from beginner maze routes to master fill-every-tile challenges."
+  eyebrow="Amaze Game Levels"
+  heading="Maze-fill levels by difficulty."
+  intro="Use this level directory to understand the route-planning curve before you open the full Amaze Game player."
+  levels={levels}
+  notes={["Beginner boards teach movement.", "Advanced boards punish stranded tiles.", "Expert and master boards reward full-route planning."]}
+/>

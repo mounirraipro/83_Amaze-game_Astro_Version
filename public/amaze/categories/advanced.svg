@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="Advanced Amaze Game maze preview">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07182f"/>
+      <stop offset="0.55" stop-color="#0f2d5c"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <pattern id="grid2" width="38" height="38" patternUnits="userSpaceOnUse">
+      <path d="M 38 0 L 0 0 0 38" fill="none" stroke="rgba(255,255,255,.13)" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="360" rx="0" fill="url(#bg2)"/>
+  <rect x="24" y="24" width="592" height="312" rx="22" fill="url(#grid2)" opacity=".9"/>
+  <g transform="translate(178 72) scale(1.18)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 26 150 L 26 116 L 66 116 L 66 78 L 108 78 L 108 42 L 152 42 L 152 92 L 196 92 L 196 146 L 238 146" stroke="rgba(255,255,255,.2)" stroke-width="44"/>
+    <path d="M 26 150 L 26 116 L 66 116 L 66 78 L 108 78 L 108 42 L 152 42 L 152 92 L 196 92 L 196 146 L 238 146" stroke="#60a5fa" stroke-width="26"/>
+    <circle cx="238" cy="146" r="19" fill="#facc15" stroke="#fff7ad" stroke-width="7"/>
+  </g>
+  <text x="42" y="66" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">Advanced</text>
+  <text x="42" y="96" fill="#c8e6ff" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">Amaze Game advanced routes</text>
+</svg>

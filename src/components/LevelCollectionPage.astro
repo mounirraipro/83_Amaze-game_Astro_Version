@@ -1,0 +1,75 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCategoryAccentClass } from "@/data/accentClasses";
+import type { GameLevel } from "@/data/gameData";
+
+type LevelItem = {
+  categoryName: string;
+  categoryColor: string;
+  level: GameLevel;
+};
+
+type Props = {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  levels: LevelItem[];
+  notes?: string[];
+};
+
+const { title, description, eyebrow, heading, intro, levels, notes = [] } = Astro.props;
+const categoryNames = Array.from(new Set(levels.map(({ categoryName }) => categoryName))).join(", ");
+const difficultyNames = Array.from(new Set(levels.map(({ level }) => level.difficulty))).join(", ");
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="listing-shell level-collection">
+    <header class="listing-header">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>{heading}</h1>
+      <p>{intro}</p>
+    </header>
+
+    {notes.length > 0 && (
+      <div class="level-note-grid">
+        {notes.map((note) => (
+          <article>
+            <p>{note}</p>
+          </article>
+        ))}
+      </div>
+    )}
+
+    <div class="level-grid">
+      {levels.map(({ categoryName, level }) => (
+        <a class:list={["level-card", getCategoryAccentClass(categoryName)]} href="/play/">
+          <img src={level.thumbnail} alt={level.title + " Amaze Game level preview"} width="640" height="360" loading="lazy" />
+          <strong>{level.title}</strong>
+          <span>{categoryName} - {level.gridSize} - {level.difficulty}</span>
+        </a>
+      ))}
+    </div>
+
+    <section class="seo-copy-section" aria-labelledby="level-collection-guide">
+      <div class="section-head">
+        <h2 id="level-collection-guide">{heading} guide.</h2>
+      </div>
+      <div class="seo-copy-grid">
+        <article class="seo-copy-card seo-copy-wide">
+          <h3>What this collection includes</h3>
+          <p>This page collects {levels.length} Amaze Game levels across {categoryNames}. Each level uses the same free browser puzzle goal: slide through the maze, color every tile, and avoid leaving unreachable squares behind.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>Difficulty and pacing</h3>
+          <p>The visible levels include {difficultyNames} labels. Smaller boards are better for quick warm-ups. Harder boards are better for longer sessions because they require route planning before the first move.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>How to solve cleaner</h3>
+          <p>Identify corners, single-entry pockets, and long corridors. Decide whether constrained areas belong at the beginning or end of the path, then use each restart to test a better opening route.</p>
+        </article>
+      </div>
+    </section>
+  </section>
+</BaseLayout>

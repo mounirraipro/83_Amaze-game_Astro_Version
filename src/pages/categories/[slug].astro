@@ -1,0 +1,8 @@
+---
+import CategoryPage from "@/components/CategoryPage.astro";
+import { categories } from "@/data/gameData";
+
+export const getStaticPaths = () => categories.map((category) => ({ params: { slug: category.slug } }));
+---
+
+<CategoryPage slug={Astro.params.slug ?? ""} />

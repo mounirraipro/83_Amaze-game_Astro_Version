@@ -1,0 +1,46 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCategoryAccentClass } from "@/data/accentClasses";
+import { categories } from "@/data/gameData";
+
+const totalLevels = categories.reduce((sum, category) => sum + category.levels.length, 0);
+---
+
+<BaseLayout title="Amaze Game Modes" description="Browse Amaze Game modes and difficulty categories, from beginner maze-fill routes to master path-planning challenges.">
+  <section class="listing-shell">
+    <header class="listing-header">
+      <p class="eyebrow">Amaze Game Modes</p>
+      <h1>{categories.length} route modes.</h1>
+      <p>Choose a difficulty band, study the maze preview, then play Amaze Game online with a clearer plan.</p>
+    </header>
+    <div class="category-grid">
+      {categories.map((category) => (
+        <a class:list={["media-card", getCategoryAccentClass(category.name)]} href={"/categories/" + category.slug + "/"}>
+          <img src={category.levels[0]?.thumbnail ?? category.levels[0]?.image} alt={category.name + " Amaze Game mode preview"} width="640" height="360" loading="lazy" />
+          <span>{category.name}</span>
+          <small>{category.levels.length} levels</small>
+        </a>
+      ))}
+    </div>
+
+    <section class="seo-copy-section" aria-labelledby="category-guide">
+      <div class="section-head">
+        <h2 id="category-guide">Amaze Game mode guide.</h2>
+      </div>
+      <div class="seo-copy-grid">
+        <article class="seo-copy-card seo-copy-wide">
+          <h3>Difficulty changes the route logic</h3>
+          <p>Amaze Game modes organize {totalLevels} route-planning levels by how much thinking the board asks for. Beginner grids teach the movement rule, intermediate grids introduce longer slides, advanced grids add awkward branches, and expert or master grids reward complete route planning before the first move.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>Choose by session length</h3>
+          <p>Pick beginner or intermediate when you want a quick browser puzzle break. Move into advanced, expert, or master when you want a slower solve where every corridor and dead end matters.</p>
+        </article>
+        <article class="seo-copy-card">
+          <h3>Use the same core skill</h3>
+          <p>Every mode keeps the same Amaze Game goal: fill every tile. The difference is how carefully you must protect access to unfilled areas after each straight-line slide.</p>
+        </article>
+      </div>
+    </section>
+  </section>
+</BaseLayout>

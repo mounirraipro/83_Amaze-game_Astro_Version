@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Amaze Game favicon">
+  <rect width="256" height="256" rx="54" fill="#07182f"/>
+  <path d="M54 182 V132 H96 V82 H144 V118 H194 V64" fill="none" stroke="#123d8d" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54 182 V132 H96 V82 H144 V118 H194 V64" fill="none" stroke="#22d3ee" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="194" cy="64" r="21" fill="#facc15" stroke="#fff7ad" stroke-width="8"/>
+</svg>

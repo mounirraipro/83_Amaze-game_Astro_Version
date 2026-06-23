@@ -1,0 +1,17 @@
+---
+import LevelCollectionPage from "@/components/LevelCollectionPage.astro";
+import { categories } from "@/data/gameData";
+
+const hardModes = categories.filter((category) => ["advanced", "expert", "master"].includes(category.slug));
+const levels = hardModes.flatMap((category) => category.levels.map((level) => ({ categoryName: category.name, categoryColor: category.color, level })));
+---
+
+<LevelCollectionPage
+  title="Expert Amaze Game Levels"
+  description="Browse harder Amaze Game levels for advanced, expert, and master route-planning sessions."
+  eyebrow="Expert puzzles"
+  heading="Harder Amaze Game routes."
+  intro="Advanced boards for players who want tighter corridors, trickier dead ends, and more deliberate path planning."
+  levels={levels}
+  notes={["Plan before moving.", "Work backward from dead ends.", "Restart with a changed opening."]}
+/>
