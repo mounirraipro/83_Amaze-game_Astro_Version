@@ -23,7 +23,7 @@ Set production values in `.env`:
 ```bash
 SITE_URL=https://amaze-game.com
 PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-PUBLIC_GTM_ID=
+PUBLIC_GTM_ID=GTM-KP5R9GVF
 ```
 
 Content and SEO live in `src/data/siteConfig.ts`, `src/data/pageContent.ts`, `src/data/articles.ts`, `src/data/gameData.ts`, and `src/data/seo.ts`.
