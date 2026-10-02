@@ -1,0 +1,27 @@
+---
+import { ADSTERRA_ENABLED, ADSTERRA_BANNER_UNITS } from "@/data/advertising";
+type Props = { format?: keyof typeof ADSTERRA_BANNER_UNITS };
+const { format = "leaderboard" } = Astro.props;
+const unit = ADSTERRA_BANNER_UNITS[format];
+---
+{ADSTERRA_ENABLED && (
+  <div class:list={["adsterra-slot", format]}>
+    <section class="adsterra-banner" aria-label="Advertisement" data-adsterra-banner data-key={unit.key} data-frame-src={`/adsterra/${unit.key}.html`} data-width={unit.width} data-height={unit.height} style={`--ad-width:${unit.width}px;--ad-height:${unit.height}px`}>
+      <span class="adsterra-label">Advertisement</span>
+      <div class="adsterra-creative" data-adsterra-creative></div>
+    </section>
+  </div>
+)}
+<style>
+  .adsterra-slot { container-type: inline-size; width: 100%; min-width: 0; }
+  .adsterra-banner { display: none; width: var(--ad-width); margin: 0 auto; text-align: center; }
+  .adsterra-label { display: block; margin-bottom: 8px; color: #7a879b; font: 10px/14px var(--font-sans); letter-spacing: 0.08em; }
+  .adsterra-creative { width: var(--ad-width); height: var(--ad-height); background: #f5f8fc; }
+  .adsterra-creative :global(iframe) { display: block; border: 0; max-width: none; }
+  @media (min-width: 800px) {
+    @container (min-width: 728px) { .leaderboard .adsterra-banner { display: block; margin-block: 24px; } }
+    @container (min-width: 160px) { .skyscraper .adsterra-banner { display: block; } }
+  }
+  .adsterra-banner[data-failed], :global(html[data-adsterra-disabled]) .adsterra-slot,
+  :global(html[data-adsterra-opt-out]) .adsterra-slot { display: none !important; }
+</style>

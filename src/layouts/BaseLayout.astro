@@ -1,6 +1,9 @@
 ---
 import "@/styles/global.css";
 import GoogleTags from "@/components/GoogleTags.astro";
+import AdsterraBanner from "@/components/AdsterraBanner.astro";
+import AdsterraPreferences from "@/components/AdsterraPreferences.astro";
+import { advertisingForPath } from "@/data/advertising";
 import { siteConfig } from "@/data/siteConfig";
 import { siteRoutes } from "@/data/siteRoutes";
 import { buildJsonLd, buildPageTitle, getCanonicalUrl, getSeoForPath, withTrailingSlash, type SeoPage } from "@/data/seo";
@@ -15,6 +18,8 @@ type Props = {
 const { title, description, seo = {}, structuredData = [] } = Astro.props;
 
 const pathname = Astro.url.pathname;
+const advertising = advertisingForPath(pathname);
+const customBanner = pathname === "/" || pathname.replace(/\/+$/, "") === "/play";
 const routeSeo = getSeoForPath(pathname);
 const pageSeo = {
   ...routeSeo,
@@ -135,9 +140,11 @@ const routeHref = (path: string) => withTrailingSlash(path);
 
     <main id="main-content" class="min-h-[72vh]">
       <slot />
+      {advertising.enabled && !customBanner && <div class="adsterra-content-banner"><AdsterraBanner /></div>}
     </main>
 
     <footer class="border-t border-line-strong bg-gradient-to-b from-[#f8fbff] to-white">
+      <AdsterraPreferences socialBar={advertising.socialBar} sponsoredLink={advertising.enabled} />
       <div class="mx-auto grid w-[min(1120px,calc(100%-48px))] grid-cols-[minmax(240px,1.3fr)_repeat(4,minmax(120px,0.72fr))_minmax(220px,1fr)] gap-8 py-8 max-lg:grid-cols-3 max-sm:w-[calc(100%-28px)] max-sm:grid-cols-2">
         <div class="max-sm:col-span-2">
           <a class="mb-4 inline-flex w-fit items-center gap-3 text-ink no-underline" href="/" aria-label={`${siteConfig.name} home`}>
@@ -222,3 +229,6 @@ const routeHref = (path: string) => withTrailingSlash(path);
     </script>
   </body>
 </html>
+<style>
+  .adsterra-content-banner { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+</style>

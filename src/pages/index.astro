@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdsterraBanner from "@/components/AdsterraBanner.astro";
 import { articles } from "@/data/articles";
 import { categories } from "@/data/gameData";
 import { externalGames } from "@/data/externalGames";
@@ -137,6 +138,7 @@ const homeStructuredData = [
   </section>
 
   <section class="home-section home-search-intent">
+    <AdsterraBanner />
     <div class="home-section-head split-head">
       <div>
         <p class="eyebrow">Amaze Game guide</p>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdsterraBanner from "@/components/AdsterraBanner.astro";
 import { externalGames } from "@/data/externalGames";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -24,6 +25,7 @@ const relatedGames = externalGames.slice(0, 4);
 >
   <section class="play-stage" id="top">
     <div class="play-stage-bg" aria-hidden="true"></div>
+    <aside class="play-ad-rail" aria-label="Sponsored advertisement"><AdsterraBanner format="skyscraper" /></aside>
     <div class="play-shell" data-game-shell>
       <iframe src="/game/index.html" title="Connect The Dot online puzzle" allow="autoplay; fullscreen *" allowfullscreen></iframe>
       <div class="play-float-controls">
@@ -36,6 +38,8 @@ const relatedGames = externalGames.slice(0, 4);
       </div>
     </div>
   </section>
+
+  <div class="play-ad-leaderboard"><AdsterraBanner /></div>
 
   <section class="play-info-section">
     <div class="play-info-head">
@@ -113,3 +117,11 @@ const relatedGames = externalGames.slice(0, 4);
     })();
   </script>
 </BaseLayout>
+<style>
+  /* Occupy only the existing outer margin; game sizing/position is unchanged. */
+  .play-ad-rail { display: none; }
+  @media (min-width: 1680px) {
+    .play-ad-rail { display: block; position: absolute; z-index: 1; width: 160px; left: calc(50% + 664px); top: 22.4px; }
+  }
+  .play-ad-leaderboard { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+</style>

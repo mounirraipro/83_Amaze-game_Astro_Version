@@ -151,11 +151,11 @@ export const pageContent = {
       },
       {
         "heading": "Advertising and Analytics",
-        "body": "If advertising or analytics scripts are enabled through environment variables, those providers may use cookies to measure performance or serve ads."
+          "body": "Adsterra advertising loads automatically on eligible pages unless you turn it off in Advertising preferences in the footer or your browser sends Global Privacy Control (GPC). Adsterra may use cookies and related tracking to serve and measure ads. Analytics tools are configured separately."
       },
       {
         "heading": "Your Choices",
-        "body": "Most browsers let you block, delete, or manage cookies through settings. Blocking cookies may affect embedded game behavior."
+          "body": "Use Advertising preferences in the footer to turn off or re-enable Adsterra. Browser storage remembers your choice and banner refresh cooldowns. Most browsers also let you manage cookies; blocking storage may affect embedded game behavior."
       }
     ]
   },
@@ -368,7 +368,11 @@ export const pageContent = {
       },
       {
         "heading": "Analytics and Ads",
-        "body": "Analytics or advertising scripts may be enabled through deployment environment variables. These providers can collect technical and usage data."
+          "body": "Analytics tools may be enabled through deployment environment variables. These providers can collect technical and usage data."
+        },
+        {
+          "heading": "Adsterra Advertising",
+          "body": "Amaze Game automatically loads Adsterra advertising on eligible pages. Adsterra may collect technical and usage information and use cookies or similar tracking to deliver and measure advertising. You can turn it off in Advertising preferences in the footer. Saved opt-outs and Global Privacy Control (GPC) prevent Adsterra scripts and sponsored links from being enabled. A Social Bar withdrawal reloads the page to remove the provider's scripts; Social Bar is excluded from game pages. Banner ads refresh independently after 37 to 50 seconds of eligible visible, focused time. Sponsored offers open only when you choose their clearly labeled links. Third-party game hosts and analytics have separate privacy behavior."
       },
       {
         "heading": "Contact",

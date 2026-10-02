@@ -1,0 +1,36 @@
+---
+import { ADSTERRA_ENABLED, ADSTERRA_SMARTLINK } from "@/data/advertising";
+type Props = { socialBar?: boolean; sponsoredLink?: boolean };
+const { socialBar = false, sponsoredLink = false } = Astro.props;
+---
+{ADSTERRA_ENABLED && (
+  <div class="advertising-footer">
+    {sponsoredLink && <a class="sponsored-link" href={ADSTERRA_SMARTLINK} target="_blank" rel="sponsored nofollow noopener noreferrer" data-adsterra-smartlink hidden>Sponsored offer <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>}
+    <details id="advertising-preferences" data-adsterra-preferences data-social-bar={String(socialBar)}>
+      <summary>Advertising preferences</summary>
+      <p>Amaze Game automatically loads Adsterra advertising and related tracking unless you opt out or your browser sends Global Privacy Control (GPC).</p>
+      <div class="advertising-actions">
+        <button type="button" data-adsterra-deny>Turn off ads</button>
+        <button type="button" data-adsterra-allow hidden>Re-enable ads</button>
+        <a href="/privacy-policy/#adsterra-advertising">Privacy details</a>
+      </div>
+      <p role="status" data-adsterra-status>Reading this browser's advertising preferences.</p>
+      <noscript>Advertising scripts do not load without JavaScript.</noscript>
+    </details>
+  </div>
+)}
+<script>
+  import { initializeAdsterra } from "../scripts/adsterra";
+  initializeAdsterra();
+</script>
+<style>
+  .advertising-footer { width: min(1120px, calc(100% - 48px)); margin: 0 auto; padding: 16px 0; color: #536178; font-size: 12px; }
+  .sponsored-link { display: inline-block; margin-bottom: 16px; text-decoration: underline; text-underline-offset: 3px; }
+  .sponsored-link[hidden], button[hidden] { display: none; }
+  summary { cursor: pointer; width: fit-content; }
+  p { max-width: 740px; margin: 12px 0; line-height: 1.65; }
+  .advertising-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  button { padding: 8px 12px; border: 1px solid #c9d6e6; border-radius: 6px; background: white; color: #172033; cursor: pointer; font: inherit; }
+  .advertising-actions a { text-decoration: underline; }
+  @media (max-width: 640px) { .advertising-footer { width: calc(100% - 28px); } }
+</style>
