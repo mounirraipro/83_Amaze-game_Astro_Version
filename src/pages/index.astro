@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdsterraBanner from "@/components/AdsterraBanner.astro";
+import { ADSTERRA_ENABLED } from "@/data/advertising";
 import { articles } from "@/data/articles";
 import { categories } from "@/data/gameData";
 import { externalGames } from "@/data/externalGames";
@@ -85,7 +86,7 @@ const homeStructuredData = [
 
 <BaseLayout title={siteConfig.name} description={siteConfig.description} structuredData={homeStructuredData}>
   <section class="hero-play">
-    <div class="home-game-lobby">
+    <div class:list={["home-game-lobby", { "home-game-lobby-with-ad": ADSTERRA_ENABLED }]}>
       <div class="game-bento-grid game-bento-grid-side" aria-label="Games you can play">
         {homeBentoLeft.map((game, index) => (
           <a class:list={["game-bento-card", game.accentClass, { "game-bento-card-featured": index === 0 }]} href={game.href}>
@@ -100,7 +101,8 @@ const homeStructuredData = [
       <div class="hero-game">
         <iframe src="/game/index.html" title="Play Connect The Dot" loading="eager"></iframe>
       </div>
-      <div class="game-bento-grid game-bento-grid-side" aria-label="More games">
+      {ADSTERRA_ENABLED && <aside class="home-ad-rail" aria-label="Sponsored advertisement"><AdsterraBanner format="skyscraper" /></aside>}
+      <div class="game-bento-grid game-bento-grid-side home-more-games" aria-label="More games">
         {homeBentoRight.map((game, index) => (
           <a class:list={["game-bento-card", game.accentClass, { "game-bento-card-featured": index === 0 }]} href={game.href}>
             <img src={game.thumbnail} alt={game.title + " thumbnail"} width="640" height="360" loading="lazy" />
@@ -238,3 +240,28 @@ const homeStructuredData = [
     </div>
   </section>
 </BaseLayout>
+<style>
+  .home-ad-rail { display: none; }
+  @media (min-width: 1200px) {
+    /* Reuse the existing 230px right track; the game track is never reduced.
+       Keep all recommendation links in a separate row below the game/ad row. */
+    .home-game-lobby-with-ad { align-items: start; }
+    .home-ad-rail { display: block; grid-column: 3; grid-row: 1; justify-self: center; width: 160px; }
+    .home-game-lobby-with-ad .home-more-games {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: 118px;
+      margin-top: 8px;
+    }
+    .home-game-lobby-with-ad .home-more-games .game-bento-card {
+      grid-template-columns: 96px minmax(0, 1fr);
+      grid-template-rows: 1fr;
+      gap: 0.7rem;
+      min-height: 0;
+      padding: 0.6rem;
+    }
+    .home-game-lobby-with-ad .home-more-games .game-bento-card > div { padding: 0.6rem 2.35rem 0.6rem 0.78rem; }
+    .home-game-lobby-with-ad .home-more-games .game-bento-card strong { font-size: 1.2rem; }
+  }
+</style>
